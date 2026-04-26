@@ -1,2 +1,414 @@
 DIOMEDE MUZAMIRU
 2TH APRIL 2026
+
+TASK 1
+import sqlite3
+
+conn = sqlite3.connect('nyondo_stock.db')
+
+conn.execute('''
+CREATE TABLE IF NOT EXISTS products (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL,
+description TEXT,
+price REAL NOT NULL
+)
+''')
+
+conn.executemany(
+'INSERT INTO products (name, description, price) VALUES (?, ?, ?)',
+[
+('Cement (bag)', 'Portland cement 50kg bag', 35000),
+('Iron Sheet 3m', 'Gauge 30 roofing sheet 3m long', 110000),
+('Paint 5L', 'Exterior wall paint white 5L', 60000),
+('Nails 1kg', 'Common wire nails 1kg pack', 12000),
+('Timber 2x4', 'Pine timber plank 2x4 per metre', 25000),
+]
+)
+
+conn.commit()
+
+rows = conn.execute('SELECT * FROM products').fetchall()
+for r in rows:
+        print(r)
+
+
+
+CREATE TABLE IF NOT EXISTS products (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL,
+description TEXT,
+price REAL NOT NULL
+)
+''')
+
+
+
+
+'INSERT INTO products (name, description, price) VALUES (?, ?, ?)',
+[
+('Cement (bag)', 'Portland cement 50kg bag', 35000),
+('Iron Sheet 3m', 'Gauge 30 roofing sheet 3m long', 110000),
+('Paint 5L', 'Exterior wall paint white 5L', 60000),
+('Nails 1kg', 'Common wire nails 1kg pack', 12000),
+('Timber 2x4', 'Pine timber plank 2x4 per metre', 25000),
+]
+)
+
+
+
+
+(1, 'Cement (bag)', 'Portland cement 50kg bag', 35000.0)
+(2, 'Iron Sheet 3m', 'Gauge 30 roofing sheet 3m long', 110000.0)
+(3, 'Paint 5L', 'Exterior wall paint white 5L', 60000.0)
+(4, 'Nails 1kg', 'Common wire nails 1kg pack', 12000.0)
+(5, 'Timber 2x4', 'Pine timber plank 2x4 per metre', 25000.0)
+
+TASK 2
+QUERY A
+
+import sqlite3
+
+conn = sqlite3.connect('nyondo_stock.db')
+
+cursor = conn.cursor()
+
+cursor.execute("SELECT * FROM products;")
+
+rows = cursor.fetchall()
+
+for row in rows:
+    print(row)
+
+conn.close()
+
+
+
+QUERY B
+
+conn = sqlite3.connect('nyondo_stock.db')
+
+cursor = conn.cursor()
+
+cursor.execute("SELECT name, price FROM products;")
+
+rows = cursor.fetchall()
+
+for row in rows:
+    print(row)
+
+conn.close()
+
+QUERY C
+
+conn = sqlite3.connect('nyondo_stock.db')
+
+cursor = conn.cursor()
+
+cursor.execute("SELECT * FROM products WHERE id = 3;")
+
+rows = cursor.fetchall()
+
+for row in rows:
+    print(row)
+
+conn.close()
+
+
+QUERY D
+conn = sqlite3.connect('nyondo_stock.db')
+
+cursor = conn.cursor()
+
+cursor.execute("SELECT * FROM products WHERE name LIKE '%sheet%';")
+
+rows = cursor.fetchall()
+
+for row in rows:
+    print(row)
+
+conn.close()
+
+
+
+QUERY E
+
+conn = sqlite3.connect('nyondo_stock.db')
+
+cursor = conn.cursor()
+
+cursor.execute("SELECT * FROM products ORDER BY price DESC;")
+
+
+rows = cursor.fetchall()
+
+
+for row in rows:
+    print(row)
+
+conn.close()
+
+# query F
+
+conn = sqlite3.connect('nyondo_stock.db')
+
+cursor = conn.cursor()
+
+cursor.execute("SELECT * FROM products ORDER BY price DESC LIMIT 2;")
+
+rows = cursor.fetchall()
+
+for row in rows:
+    print(row)
+
+conn.close()
+
+# QUERY G
+
+conn = sqlite3.connect('nyondo_stock.db')
+
+cursor = conn.cursor()
+
+cursor.execute("SELECT * FROM products WHERE id = 3;")
+
+rows = cursor.fetchall()
+
+for row in rows:
+    print(row)
+
+conn.close()
+
+
+OUTPUTS FROM EACH QUERY
+
+QUERY A
+(1, 'Cement (bag)', 'Portland cement 50kg bag', 35000.0)
+(2, 'Iron Sheet 3m', 'Gauge 30 roofing sheet 3m long', 110000.0)
+(3, 'Paint 5L', 'Exterior wall paint white 5L', 60000.0)
+(4, 'Nails 1kg', 'Common wire nails 1kg pack', 12000.0)
+(5, 'Timber 2x4', 'Pine timber plank 2x4 per metre', 25000.0)
+
+QUERY B
+('Cement (bag)', 35000.0)
+('Iron Sheet 3m', 110000.0)
+('Paint 5L', 60000.0)
+('Nails 1kg', 12000.0)
+('Timber 2x4', 25000.0)
+
+QUERY C
+(3, 'Paint 5L', 'Exterior wall paint white 5L', 60000.0)
+
+QUERY D
+(2, 'Iron Sheet 3m', 'Gauge 30 roofing sheet 3m long', 110000.0)
+
+
+QUERY E
+(2, 'Iron Sheet 3m', 'Gauge 30 roofing sheet 3m long', 110000.0)
+(3, 'Paint 5L', 'Exterior wall paint white 5L', 60000.0)
+(1, 'Cement (bag)', 'Portland cement 50kg bag', 35000.0)
+(5, 'Timber 2x4', 'Pine timber plank 2x4 per metre', 25000.0)
+(4, 'Nails 1kg', 'Common wire nails 1kg pack', 12000.0)
+
+
+QUERY F
+(2, 'Iron Sheet 3m', 'Gauge 30 roofing sheet 3m long', 110000.0)
+(3, 'Paint 5L', 'Exterior wall paint white 5L', 60000.0)
+
+
+QUERY G
+
+(1, 'Cement (bag)', 'Portland cement 50kg bag', 38000.0)
+
+
+TASK 3
+import sqlite3
+
+conn = sqlite3.connect('nyondo_stock.db')
+
+conn.execute('''
+   CREATE TABLE IF NOT EXISTS users (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+username TEXT NOT NULL,
+password TEXT NOT NULL,
+role TEXT DEFAULT 'attendant'
+);
+             
+             ''')
+
+conn.execute('''
+INSERT OR IGNORE INTO users (username, password, role) VALUES
+('admin', 'admin123', 'admin'),
+('fatuma', 'pass456', 'attendant'),
+('wasswa', 'pass789', 'manager');
+             
+''')
+
+# step 2 - create your vulnerability file. use code for your track
+
+def search_product(name):
+    query = f"SELECT * FROM products WHERE name LIKE '%{name}%'"
+    print(f'Query: {query}')
+
+    rows = conn.execute(query).fetchall()
+    print(f'Result: {rows}\n')
+    return rows
+
+def login(username, password):
+    query = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
+    print(f'Query: {query}')
+    row = conn.execute(query).fetchone()
+    print(f'Result: {row}\n')
+    return row
+
+# STEP 3 
+# ATTACK 1 -  dump all your products
+# OR 1=1 is always true so the WHERE is pypassed and all products come back 
+# including the cost prices which attackers should never see
+search_product("' OR 1=1--")
+
+# attack2 login bypass
+# the -- comments out the password check. you log in as admin with any password
+login("admin'--", "anything")
+
+# attack 3 - always true login
+# what happens
+#OR '1'='1' is always true. Returns the first user in the database with no credentials.
+
+login("' OR '1'='1", "' OR '1'='1")
+
+# attack 4
+# UNION attack
+# user steals data from the product search
+# The product search now returns the users table including all passwords. 
+# This is how attackers steal credentials through a search box.
+search_product("' UNION SELECT id, username, password, role FROM users--")
+
+# ATTACK 1 - dump all products
+Query: SELECT * FROM products WHERE name LIKE '%' OR 1=1--%'
+
+
+#ATTACK 2
+Query: SELECT * FROM users WHERE username='admin'--' AND password='anything'
+
+# attack 3
+Query: SELECT * FROM users WHERE username='' OR '1'='1' AND password='' OR '1'='1'
+
+# attack 4
+Query: SELECT * FROM products WHERE name LIKE '%' UNION SELECT id, username, password, role FROM users--%'
+
+# FOR EACH ATTACK: THE RESULT THAT CAME back
+
+# attack 1
+Result: [(1, 'Cement (bag)', 
+'Portland cement 50kg bag', 38000.0), 
+(2, 'Iron Sheet 3m', 'Gauge 30 roofing sheet 3m long', 110000.0), 
+(3, 'Paint 5L', 'Exterior wall paint white 5L', 60000.0),
+(4, 'Nails 1kg', 'Common wire nails 1kg pack', 12000.0), 
+(5, 'Timber 2x4', 'Pine timber plank 2x4 per metre', 25000.0)]
+
+# attack2
+Result: (1, 'admin', 'admin123', 'admin')
+
+# attack 3
+Result: (1, 'admin', 'admin123', 'admin')
+
+# attack 4
+Result: [(1, 'Cement (bag)', 
+'Portland cement 50kg bag', 38000.0), 
+(1, 'admin', 'admin123', 'admin'), 
+(2, 'Iron Sheet 3m', 'Gauge 30 roofing sheet 3m long', 110000.0), 
+(2, 'fatuma', 'pass456', 'attendant'), 
+(3, 'Paint 5L', 'Exterior wall paint white 5L', 60000.0), 
+(3, 'wasswa', 'pass789', 'manager'), 
+(4, 'Nails 1kg', 'Common wire nails 1kg pack', 12000.0), 
+(5, 'Timber 2x4', 'Pine timber plank 2x4 per metre', 25000.0)]
+
+WHY THE ATTACKS WORKED
+# attack 1
+The OR 1=1 is always true so it brings every single product back from the database
+
+# attack 2
+the -- comments out the login password check. so you can login as admin with any password
+
+# attack 3
+OR '1'='1' is always true. so rhis returns the first user in the data base
+
+# attack 4
+that is a query that returns the users' details including the password, which are not hashed hence making it easy to steal the users' data
+
+
+TASK 4
+import sqlite3
+conn = sqlite3.connect('nyondo_stock.db')
+
+# TODO: rewrite using ? placeholder - never use f-strings in SQL
+def search_product_safe(name):
+    query = "SELECT * FROM products WHERE name LIKE ?"
+    param = f"%{name}%"
+    
+    print("Query:", query)
+    print("Params:", param)
+    
+    rows = conn.execute(
+        query, (param,)).fetchall()  
+    print(f'Result: {rows}\n')
+    return rows
+
+def login_safe(username, password):
+    query = "SELECT * FROM users WHERE username = ? AND password = ?"
+    
+    print("Query:", query)
+    print("Params:", (username, password))
+    
+    row = conn.execute(query, (username, password)).fetchone()
+    print(f"Result: {row}\n")
+    
+    return row
+
+    TASK 3 OUTPUT
+    C:\Users\HP\Pictures\sql_security>python secure.py
+Query: SELECT * FROM products WHERE name LIKE ?
+Params: %' OR 1=1--%
+Result: []
+
+Test 1: []
+Query: SELECT * FROM products WHERE name LIKE ?
+Params: %' UNION SELECT id,username,password,role FROM users--%
+Result: []
+
+Test 2: []
+Query: SELECT * FROM users WHERE username = ? AND password = ?
+Params: ("admin'--", 'anything')
+Result: None
+
+Test 3: None
+Query: SELECT * FROM users WHERE username = ? AND password = ?
+Params: ("' OR '1'='1", "' OR '1'='1")
+Result: None
+
+Test 4: None
+
+MY PARAGRAPH EXPLANATION IN MY OWN WORDS.
+so when we use ? placeholders instead of the sctual datra in the query structure which is fixed instead of the usong the f-strings
+the user names and passwords arw stored as normal data instead of being stored as part of the SQL command which makes sql injection easy
+so, separating the sql commands from the user inputs is what defends the system from sql injections 
+
+
+TASK 5
+Product Search Tests
+Test 'cement': Rejected: price must not be a float
+Test empty string: []
+Test '<script>': Rejected
+
+ Login Tests
+Params: ('admin', 'admin123')
+Query: SELECT * FROM users WHERE username = ? AND password = ?
+Result: None
+
+Test valid login: None
+Test short password: rejected: password must be atleast 6 characters
+Params: ('ad min', 'pass123')
+Query: SELECT * FROM users WHERE username = ? AND password = ?
+Result: None
+
+Test space in username: None
